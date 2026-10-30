@@ -1,0 +1,11 @@
+---
+project_name: private-cloud
+deployment_environment: development
+
+ansible_become: true
+command_packages:
+  - curl
+  - git
+  - neovim
+  - ca-certificates
+timezone: Africa/Cairo

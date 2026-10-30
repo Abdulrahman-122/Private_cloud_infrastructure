@@ -1,0 +1,7 @@
+---
+common_packages:
+  - curl
+  - git
+  - chrony
+  - ca-certificates
+common_timezone: Africa/Cairo

@@ -1,0 +1,6 @@
+---
+server_role: application
+filecloud_enabled: true
+application_directories:
+  - /opt/private-cloud
+  - /var/log/priavate-cloud

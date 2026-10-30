@@ -1,0 +1,4 @@
+---
+server_role: storage
+storage_enabled: true
+storage_mount_base: /srv/private-cloud

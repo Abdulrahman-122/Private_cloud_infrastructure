@@ -1,0 +1,70 @@
+
+---
+- name: Show host-specific configuration
+  hosts: managed
+  gather_facts: true
+  
+
+  vars:
+    project_name: private-cloud
+    deployment_environment: development
+    packages:
+      - curl
+      - git
+      - htop
+
+  tasks:
+    - name: Display each host's configuration
+      ansible.builtin.debug:
+        msg: "{{ inventory_hostname }} uses SSH port {{ ansible_port }}"
+
+    - name: Display project and host information
+      ansible.builtin.debug:
+        msg: >-
+          Project={{ project_name | upper }}
+          Environment={{ deployment_environment | upper }}
+          Host={{ inventory_hostname  }}
+          Port={{ ansible_port }}
+
+    - name: Display operating system
+      ansible.builtin.debug:
+        msg: "{{ ansible_distribution }} {{ ansible_distribution_version }}"
+
+    - name: Display Cpu Architecture
+      ansible.builtin.debug:
+        var: ansible_architecture
+    - name: Display Available memory information
+      ansible.builtin.debug:
+        msg: "Detected memory: {{ ansible_memtotal_mb }} MIB"
+    - name: Display Debian-specific information
+      ansible.builtin.debug:
+        msg: "This host belongs to the debian family "
+      when: ansible_os_family == "Debian"
+    - name: Display each package
+      ansible.builtin.debug:
+        msg: "Package selected: {{ item }}"
+      loop:
+        - curl
+        - git
+        - htop
+    - name: check the current user
+      ansible.builtin.command: id  -un
+      register: user_check
+      changed_when:  false
+    - name: Display command output
+      ansible.builtin.debug:
+        msg: "Current  user: {{ user_check.stdout }}"
+    - name: Display command exit code
+      ansible.builtin.debug:
+        msg: "Exit code: {{ user_check.rc }} "
+    - name: Check whether /boot exists
+      ansible.builtin.command: test -d /boot
+      register: boot_check
+      changed_when: false
+      failed_when: false
+    - name: Display the directory check result
+      ansible.builtin.debug:
+        msg: >-
+          /boot exists: {{ boot_check.rc == 0 }}
+
+

@@ -1,0 +1,28 @@
+---
+- name: Audit private cloud Linux servers
+  hosts: managed
+  gather_facts: true
+  become: false
+  
+  tasks:
+    - name: Display server identity and Operating system
+      ansible.builtin.debug:
+        msg:
+          - "Inventory hostname: {{ inventory_hostname }}"
+          - "System hostname: {{ ansible_hostname }}"
+          - "Distribution: {{ ansible_distribution }} {{ ansible_distribution_version }}"
+          - "Kernel: {{ ansible_kernel }}"
+          - "Architecture: {{ ansible_architecture }}"
+          - "Python: {{ ansible_python.executable }}"
+    - name: Display CPU and memory information
+      ansible.builtin.debug:
+        msg:
+          - "CPU cores: {{ ansible_processor_vcpus }}"
+          - "Total memory: {{ ansible_memtotal_mb }} MB"
+          - "Available memory: {{ ansible_memfree_mb }} MB"
+    - name: Display filesystem information
+      ansible.builtin.debug:
+        var: ansible_mounts
+    - name: confirm audit completed
+      ansible.builtin.debug:
+          msg: "Audit completed for {{ inventory_hostname }}"

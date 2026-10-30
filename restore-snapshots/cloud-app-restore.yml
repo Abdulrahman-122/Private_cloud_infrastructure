@@ -1,0 +1,11 @@
+apiVersion: snapshot.kubevirt.io/v1beta1
+kind: VirtualMachineRestore
+metadata:
+  name: cloud-app-restore-01
+  namespace: pri-cloud
+spec:
+  target:
+    apiGroup: kubevirt.io
+    kind: VirtualMachine
+    name: cloud-app
+  virtualMachineSnapshotName: cloud-app-snapshot-01

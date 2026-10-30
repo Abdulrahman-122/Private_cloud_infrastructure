@@ -1,0 +1,95 @@
+# to understand the last even that happened on your namespace
+```
+kubectl get events -n pri-cloud --sort-by=.lastTimestamp
+
+```
+
+# to check the permissions of specific service account that you created
+```
+kubectl auth can-i get persistentvolumeclaims \
+  -n xdr-server \
+  --as=system:serviceaccount:pri-cloud:default
+
+kubectl auth can-i create datavolumes.cdi.kubevirt.io \
+  -n pri-cloud \
+  --as=system:serviceaccount:pri-cloud:default
+kubectl auth can-i get pvc/xdr-volume \
+  -n xdr-server \
+  --as=system:serviceaccount:pri-cloud:default
+
+
+
+
+
+```
+# to start a vm and stop it
+
+```
+virtctl start vm-name -n namespace-name
+
+virtctl stop vm-name  -n  namespace-name
+
+k get vm,vmi -n namespace-name
+
+```
+# to check the resources that are related to snapshots 
+
+```
+kubectl get kubevirt -A
+kubectl get volumesnapshotclass
+kubectl get volumesnapshot
+kubectl get crd volumesnapshots.snapshot.storage.k8s.io
+kubectl get storageclass csi-hostpath-sc -o yaml
+
+```
+
+# to enable snapshot as a feature on kubevirt
+
+```
+Under spec.configuration.developerConfiguration, add Snapshot to the existing featureGates list. If that list is absent, add it as follows:
+spec:
+  configuration:
+    developerConfiguration:
+      featureGates:
+        - Snapshot
+
+#then make one snapshot/VM
+#nvim cloud-app-snap.yml 
+# add
+apiVersion: snapshot.kubevirt.io/v1beta1
+kind: VirtualMachineSnapshot
+metadata:
+  name: cloud-app-snapshot-01
+  namespace: pri-cloud
+spec:
+  source:
+    apiGroup: kubevirt.io
+    kind: VirtualMachine
+    name: cloud-app
+#apply , check
+k apply -f cloud-app-snapshot.yaml
+k get vmsnapshot -n pri-cloud
+k describe vmsnapshot cloud-app-snapshot-01 -n pri-cloud
+#give it 3-5 min to provision
+
+```
+#what if you wanted to make a restore
+```
+#nvim cloud-app-restore.yml
+apiVersion: snapshot.kubevirt.io/v1beta1
+kind: VirtualMachineRestore
+metadata:
+  name: cloud-app-restore-01
+  namespace: pri-cloud
+spec:
+  target:
+    apiGroup: kubevirt.io
+    kind: VirtualMachine
+    name: cloud-app
+  virtualMachineSnapshotName: cloud-app-snapshot-01
+
+#apply,check
+k apply -f cloud-app-restore.yaml
+k get vmrestore -n pri-cloud
+k describe vmrestore cloud-app-restore-01 -n pri-cloud	
+```

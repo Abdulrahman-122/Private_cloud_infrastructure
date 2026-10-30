@@ -1,0 +1,7 @@
+---
+server_role: operations
+monitoring_enabled: true
+backup_enabled: true
+monitoring_directories:
+  - /opt/monitoring
+  - /var/lib/monitoring

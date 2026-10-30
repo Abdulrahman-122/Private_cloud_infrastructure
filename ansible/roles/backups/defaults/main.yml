@@ -1,0 +1,4 @@
+---
+backup_enabled: true
+backup_directory: /var/backups/private-cloud
+backup_rentention_days: 7

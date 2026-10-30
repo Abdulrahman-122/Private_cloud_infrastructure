@@ -1,0 +1,5 @@
+---
+server_role: database 
+database_enabled: true
+database_directories:
+  - /var/backups/private-cloud

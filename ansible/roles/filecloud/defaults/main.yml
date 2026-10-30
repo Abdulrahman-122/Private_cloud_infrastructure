@@ -1,0 +1,4 @@
+---
+filecloud_service_enabled: true
+filecloud_install_directory: /var/www/html
+filecloud_data_directory: /srv/priavate-cloud/filecloud-data

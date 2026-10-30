@@ -1,0 +1,22 @@
+---
+- name: Validate private cloud inventory
+  hosts: managed
+  gather_facts: true
+  tasks:
+    - name: Verify required infrastructure variables
+      ansible.builtin.assert:
+        that:
+          - project_name is defined
+          - deployment_environment is defined
+          - server_role is defined
+        fail_msg: "Required inventory variables are missing on {{ inventory_hostname }}"
+        success_msg: "Inventory variables are valid for  {{ inventory_hostname }}"
+    - name: Display host configuration
+      ansible.builtin.debug:
+        msg:
+          hostname: "{{ inventory_hostname }}"
+          role: "{{ server_role }}"
+          project: "{{deployment_environment }}"
+          os: "{{ ansible_distribution }}"
+          os_version: "{{ansible_distribution_version }}"
+

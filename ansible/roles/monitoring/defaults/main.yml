@@ -1,0 +1,4 @@
+---
+monitoring_enabled: true
+monitoring_install_directory: /opt/monitoring
+monitoring_data_directory: /var/lib/monitoring

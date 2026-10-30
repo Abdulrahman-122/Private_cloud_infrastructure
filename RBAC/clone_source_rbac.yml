@@ -1,0 +1,29 @@
+#grant any pod or even any stuff in pri-cloud namespace these rules (in order to start applying pvcs,cloning the image 
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: allow-private-cloud-pvc-clone
+  namespace: xdr-server
+rules:
+  - apiGroups:
+      - cdi.kubevirt.io
+    resources:
+      - datavolumes/source
+    verbs:
+      - create
+
+---  
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: allow-private-cloud-pvc-clone
+  namespace: xdr-server
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: pri-cloud
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: allow-private-cloud-pvc-clone

@@ -1,0 +1,19 @@
+---
+- name: Discovered private cloud infrastructure
+  hosts: managed
+  gather_facts: true
+
+  tasks:
+    - name: Display infrastructure report
+      ansible.builtin.debug:
+        msg:
+          hostname: "{{ inventory_hostname }}"
+          distribution: "{{ ansible_distribution }}"
+          version: "{{ ansible_distribution_version }}"
+          os_family: "{{ ansible_os_family }}"
+          architecture: "{{ ansible_architecture }}"
+          cpu_cores: "{{ansible_processor_vcpus }}"
+          memory_mb: "{{ ansible_memtotal_mb }}"
+          interfaces: "{{ ansible_interfaces }}"
+          ipv4_addresses: "{{ ansible_default_ipv4.address | default('Not detected') }}"
+

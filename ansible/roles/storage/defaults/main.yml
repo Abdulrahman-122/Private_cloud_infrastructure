@@ -1,0 +1,6 @@
+---
+storage_service_enabled: true
+storage_mount_base: /srv/private-cloud
+storage_packages:
+  - nfs-kernel-server
+  - nfs-common
