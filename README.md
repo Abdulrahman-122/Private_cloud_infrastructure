@@ -25,7 +25,7 @@ and Grafana.
 1. Infrastructure design
 2. Linux VMs and networking
 3. NFS storage
-4. File cloud
+4. Nextcloud
 5. Ansible automation
 6. Prometheus and Grafana
 7. Backup and recovery
