@@ -1,0 +1,29 @@
+---
+- name: Refresh APT package index on NFS client
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+- name: Install NFS client packages
+  ansible.builtin.apt:
+    name: "{{ storage_client_packages }}"
+    state: present
+- name: Create NFS mount point
+  ansible.builtin.file:
+    path: "{{ storage_nfs_client_mount }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+- name: Wait for NFS server port
+  ansible.builtin.wait_for:
+    host: "{{ storage_nfs_server_ip }}"
+    port: 2049
+    state: started
+    timeout: 30
+- name: Mount NFS shared directory persistently
+  ansible.posix.mount:
+    src: "{{storage_nfs_server_ip}}:{{storage_nfs_export}}"
+    path: "{{storage_nfs_client_mount}}"
+    fstype: nfs
+    opts: "rw,vers={{ storage_nfs_version }},_netdev,nofail"
+    state: mounted

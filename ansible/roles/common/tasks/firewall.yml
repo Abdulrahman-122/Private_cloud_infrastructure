@@ -1,0 +1,11 @@
+---
+- name: Install UFW on Debian-family systems
+  ansible.builtin.package:
+    name: ufw
+    state: present
+  when: ansible_os_family == "Debian"
+- name: Install Firewalld on Red Hat-family systems
+  ansible.builtin.package:
+    name: firewalld
+    state: present
+  when: ansible_os_family == "RedHat"

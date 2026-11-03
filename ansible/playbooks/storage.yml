@@ -1,0 +1,13 @@
+---
+- name: Configure NFS server
+  hosts: storage
+  become: true
+  gather_facts: true
+  roles:
+    - storage
+- name: Configure NFS client
+  hosts: app
+  become: true
+  gather_facts: true
+  roles:
+    - storage

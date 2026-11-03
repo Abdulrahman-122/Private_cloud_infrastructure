@@ -1,0 +1,16 @@
+---
+- name: Update Debian package cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  when: ansible_os_family == "Debian"
+- name: Upgrade Debian packages
+  ansible.builtin.apt:
+    upgrade: safe
+  when: ansible_os_family == "Debian"
+- name: Upgrade Red Hat packages
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+    update_cache: true
+  when: ansible_os_family == "RedHat"

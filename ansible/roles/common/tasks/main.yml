@@ -1,0 +1,20 @@
+---
+- name: Validate operating system
+  ansible.builtin.import_tasks: validation.yml
+- name: Install common packages
+  ansible.builtin.import_tasks: packages.yml
+- name: Configure hostname
+  ansible.builtin.import_tasks: hostname.yml
+  when: common_manage_hostname | bool
+- name: Configure administration user
+  ansible.builtin.import_tasks: users.yml
+- name: Configure SSH
+  ansible.builtin.import_tasks: ssh.yml
+- name: Configure firewall
+  ansible.builtin.import_tasks: firewall.yml
+  when: common_manage_firewall | bool
+- name: Apply system updates
+  ansible.builtin.import_tasks: updates.yml
+  when: common_apply_updates | bool
+- name: Configure time synchronization
+  ansible.builtin.import_tasks: timezone.yml

@@ -1,0 +1,12 @@
+---
+- name: Configure shared storage groups
+  ansible.builtin.import_tasks: groups.yml
+- name: Prepare NFS server storage
+  ansible.builtin.import_tasks: prepare.yml
+  when: inventory_hostname == 'cloud-storage'
+- name: Configure NFS server
+  ansible.builtin.import_tasks: nfs-server.yml
+  when: inventory_hostname == 'cloud-storage'
+- name: Configure NFS client 
+  ansible.builtin.import_tasks: nfs-client.yml
+  when: inventory_hostname == 'cloud-app'

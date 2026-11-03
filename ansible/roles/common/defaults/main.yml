@@ -1,7 +1,24 @@
 ---
+# Packages required on every Linux server
 common_packages:
   - curl
   - git
   - chrony
   - ca-certificates
+#infrastructure timezone
 common_timezone: Africa/Cairo
+
+#Use the inventory hostname as the Linux hostname
+
+common_manage_hostname: true
+
+#disable disruptive changes by default
+common_apply_updates: false
+
+#disable firewall roles
+
+common_manage_firewall: false
+
+#disable creating admin user until an SSH public key is supplied
+
+common_create_admin_user: false

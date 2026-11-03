@@ -1,5 +1,5 @@
 ---
-- name: Configure common Linux baseline
+- name: Apply common Linux baseline
   hosts: managed
   become: true
   gather_facts: true

@@ -1,0 +1,33 @@
+---
+- name: Refresh APT packages index on NFS server
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+
+- name: Install NFS server packages
+  ansible.builtin.apt:
+    name: "{{ storage_server_packages }}"
+    state: present
+
+
+- name: Ensure NFS exports directory exists
+  ansible.builtin.file:
+    path: /etc/exports.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+- name: Configure NFS exports
+  ansible.builtin.template:
+    src: exports.j2
+    dest: /etc/exports.d/private-cloud.exports
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload NFS exports
+- name: Enable and start NFS server
+  ansible.builtin.service:
+    name: "{{ storage_nfs_service }}"
+    enabled: true
+    state: started

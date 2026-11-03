@@ -1,0 +1,8 @@
+---
+- name: update all Linux servers
+  hosts: managed
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Update operating system
+      ansible.builtin.import_tasks: ../roles/common/tasks/updates.yml

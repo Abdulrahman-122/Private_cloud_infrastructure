@@ -1,0 +1,4 @@
+---
+- name: Verify SSH daemon configuration
+  ansible.builtin.command: sshd -t
+  changed_when: false

@@ -1,0 +1,10 @@
+---
+- name: Varify supported Linux distribution family
+  ansible.builtin.assert:
+    that:
+      - ansible_os_family in ['Debian','RedHat']
+    fail_msg: >- 
+      Unsupported OS family {{ ansible_os_family }} on {{ inventory_hostname }}.
+    success_msg: >-
+      {{ inventory_hostname }} runs a supported operating system family.
+

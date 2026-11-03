@@ -61,9 +61,14 @@ spec:
           interfaces:
           - name: default
             bridge: {}
+          - name: private
+            bridge: {}
       networks:
       - name: default
         pod: {}
+      - name: private 
+        multus:
+          networkName: private-lan
       volumes:
       - name: rootdisk
         dataVolume: {name: cloud-ops-root}

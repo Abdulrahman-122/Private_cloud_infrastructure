@@ -1,0 +1,17 @@
+---
+- name: Ensure Chrony is installed
+  ansible.builtin.package:
+    name: chrony
+    state: present
+- name: Enable Chrony on Debian-family systems
+  ansible.builtin.service:
+    name: chrony
+    enabled: true
+    state: started
+  when: ansible_os_family == 'Debian'
+- name: Enable Chrony on Red Hat-family systems
+  ansible.builtin.service:
+    name: chronyd
+    enabled: true
+    state: started
+  when: ansible_os_family == 'RedHat'

@@ -1,6 +1,34 @@
 ---
-storage_service_enabled: true
-storage_mount_base: /srv/private-cloud
-storage_packages:
+# NFS server and client
+
+storage_nfs_server_ip: "10.245.2.13"
+storage_nfs_client_ip: "10.245.2.10"
+
+#existing persistent disk
+storage_data_mount: /data
+
+#shared dir on the NFS server
+storage_nfs_export: /data/shared
+
+#Mount point on the client
+storage_nfs_client_mount: /mnt/cloud-storage
+
+#shared group 
+storage_shared_group: cloudshare
+storage_shared_gid: 2000
+storage_shared_directory_mode: "2770"
+
+#NFS configuration
+storage_nfs_version: "4.2"
+storage_nfs_options:
+  - rw
+  - sync
+  - no_subtree_check
+  - root_squash
+
+#Ubuntu packages and service
+storage_server_packages:
   - nfs-kernel-server
+storage_client_packages:
   - nfs-common
+storage_nfs_service: nfs-kernel-server

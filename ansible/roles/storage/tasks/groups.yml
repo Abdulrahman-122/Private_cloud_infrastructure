@@ -1,0 +1,12 @@
+---
+- name: Create shared storage group
+  ansible.builtin.group:
+    name: "{{ storage_shared_group}}"
+    gid: "{{ storage_shared_gid }}"
+    state: present
+
+- name: Add Cloud user to shared storage group
+  ansible.builtin.user:
+    name: cloud
+    groups: "{{ storage_shared_group }}"
+    append: true

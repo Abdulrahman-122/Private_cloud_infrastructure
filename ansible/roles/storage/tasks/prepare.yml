@@ -1,0 +1,20 @@
+---
+- name: Verify persistent data filesystem is mounted
+  ansible.builtin.command:  
+    cmd: "findmnt -n -o SOURCE,FSTYPE --target {{ storage_data_mount }}"
+  register: storage_data_filesystem
+  changed_when: false
+
+- name: Varify data filesystem is ext4
+  ansible.builtin.assert:
+    that:
+      - storage_data_filesystem.stdout.split() | length ==2
+      - storage_data_filesystem.stdout.split()[1] == 'ext4'
+    fail_msg: "The expected ext4 filesystem is not mounted at {{ storage_data_mount }}."
+- name: Create NFS shared directory
+  ansible.builtin.file:
+    path: "{{ storage_nfs_export }}"
+    state: directory
+    owner: root
+    group: "{{ storage_shared_group }}"
+    mode: "{{ storage_shared_directory_mode}}"

@@ -1,0 +1,22 @@
+---
+- name: Create dedicated infrastructure administrator
+  ansible.builtin.user:
+    name: "{{ baseline_admin_user }}"
+    shell: /bin/bash
+    create_home: true
+    groups: "{{ baseline_admin_groups | defaults([]) }}"
+    append: true
+    state: present
+  when:
+    - common_create_admin_user | bool
+    - baseline_admin_user is defined
+- name: Install administrator SSH public key
+  ansible.posix.authorized_key:
+    user: "{{ baseline_admin_user }}"
+    key:  "{{baseline_admin_public_key }}"
+    state: present
+    manage_dir: true
+  when:
+    - common_create_admin_user | bool
+    - baseline_admin_user is defined
+    - baseline_admin_public_key is defined

@@ -3,7 +3,7 @@ project_name: private-cloud
 deployment_environment: development
 
 ansible_become: true
-command_packages:
+common_packages:
   - curl
   - git
   - neovim
