@@ -1,12 +1,12 @@
 # in order to build a static ip on our vms that are running on kubevirt
 - make sure that multus is running (this what will allows us to make another bridge on our vm)
-```
+```yml
 kubectl apply -f https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset.yml
 #wait untill it running on kube-system namespace
 kubectl get pods -n kube-system | grep multus
 ```
 - make this file on your host: private-lan.yaml
-```
+```yml
 nano private-lan.yaml
 #put these
 apiVersion: k8s.cni.cncf.io/v1
@@ -33,7 +33,7 @@ kubectl get network-attachment-definitions
 
 ```
 - install cni plugin in order to make the bridge
-```
+```yml
 #on your host do the following
 cd /tmp
 curl -L -o cni-plugins.tgz https://github.com/containernetworking/plugins/releases/download/v1.5.1/cni-plugins-linux-amd64-v1.5.1.tgz
@@ -47,7 +47,7 @@ for n in $(sudo docker ps --format '{{.Names}}' | grep xdr-cluster); do
 done
 ```
 - modify each vm to include the following
-```
+```yml
 spec:
   template:
     spec:
@@ -66,7 +66,7 @@ spec:
           networkName: private-lan # NEW
 ```
 - apply each vm again
-```
+```yml
 k apply -f vm-name.yml (give it probably 3-5 min)
 ```
 - now go inside each vm and do the following
@@ -93,7 +93,7 @@ sudo netplan apply
 ip a show enp2s0
 ```
 - once you did that on all vms now ping them to see whether they can talk to each other or not
-```
+```yml
 # assume you made: vm1 192.168.50.14,vm2 192.168.50.15
 #ping from vm1
 ping -c 5 192.168.50.15
