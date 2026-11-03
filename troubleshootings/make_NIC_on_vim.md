@@ -70,7 +70,7 @@ spec:
 k apply -f vm-name.yml (give it probably 3-5 min)
 ```
 - now go inside each vm and do the following
-```
+```yml
 # stop cloud-init from rewriting the network config
 echo 'network: {config: disabled}' | sudo tee /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
 
