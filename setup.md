@@ -59,4 +59,8 @@ nodes:
 # step9 (build a monitoring server on our cloud-ops using grafana,prometheus)
 # step10 (Hardening the entire project (firewalls,SELinux...)
 # step11(build a backup on our cloud-ops for the entire cloud)
+# step10 (open nextcloud and configure the stuff there)
+```
+ssh -N -p 30030 -L 8443:localhost:443 hostname@ip
+```
 # notes
