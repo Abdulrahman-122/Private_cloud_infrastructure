@@ -49,6 +49,30 @@ nodes:
 ```
 # step2 (install the plugins for kubevirt,drivers,linux image ....,
 ```
+- install kubevirt
+# on the Kubernetes control machine
+export VERSION=$(curl -s https://storage.googleapis.com/kubevirt-prow/release/kubevirt/kubevirt/stable.txt)
+kubectl apply -f https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/kubevirt-operator.yaml
+kubectl apply -f https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/kubevirt-cr.yaml
+kubectl -n kubevirt wait kv kubevirt --for condition=Available --timeout=10m
+#in case the nodes doesn't contain hardware virtualization (VMS) install it
+kubectl -n kubevirt patch kubevirt kubevirt --type=merge \
+  -p '{"spec":{"configuration":{"developerConfiguration":{"useEmulation":true}}}}'
+#install virtctl (cli for start/stop the virtualization)
+curl -L -o virtctl https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/virtctl-${VERSION}-linux-amd64
+chmod +x virtctl && sudo mv virtctl /usr/local/bin/
+virtctl version
+# install CDI(containerized data importer)->iports disk images into pvcs
+export CDI_VERSION=$(curl -s https://api.github.com/repos/kubevirt/containerized-data-importer/releases/latest | grep tag_name | cut -d '"' -f4)
+kubectl apply -f https://github.com/kubevirt/containerized-data-importer/releases/download/${CDI_VERSION}/cdi-operator.yaml
+kubectl apply -f https://github.com/kubevirt/containerized-data-importer/releases/download/${CDI_VERSION}/cdi-cr.yaml
+kubectl get cdi
+#build a namespace,check kubevirt
+kubectl create namespace pri-cloud
+kubectl get storageclass            # note the name, used as STORAGE_CLASS below
+kubectl get pods -n kubevirt
+
+
 ```
 # step3 (conviguring pvc for the servers,snapshots,backups.....)
 # step4 (initializing the servers using ansible ....)
