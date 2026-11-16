@@ -46,6 +46,6 @@ and Grafana.
 - <img width="1920" height="826" alt="image" src="https://github.com/user-attachments/assets/6a80769d-ccc6-4b6f-806f-fed1e776c038" />
 - <img width="1919" height="351" alt="image" src="https://github.com/user-attachments/assets/82b6e1cb-acdd-4076-94aa-59313260f7da" />
 
-go to this file (if you want to build this project): setup.md
+go to this file (if you want to build this project): [setup.md](https://github.com/Abdulrahman-122/Private_cloud_infrastructure/blob/main/setup.md)
 - listen to these videos to see the outer image of this project: https://drive.google.com/drive/folders/1z9xigBwCSrbOY5_4HtW7SQjAdJGQaU1V?usp=sharing
 - thanks for kubevirt : https://kubevirt.io/user-guide/architecture/architecture/
