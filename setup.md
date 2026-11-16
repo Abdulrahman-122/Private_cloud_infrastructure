@@ -1,4 +1,4 @@
-# How to build a private cloud for yourself on your own servers or even old laptop
+# How to build a private cloud for yourself on your own server or even an old laptop
 # requirements:
 1. old machine or even a chunk of disk on your pc
 2. be familiar with Linux
